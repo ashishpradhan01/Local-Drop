@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+    <style>
+        .heading {
+            font-size: 3rem;
+            color: var(--theme-green);
+        }
+        .heading > span {
+            color: var(--theme-dark);
+        }
+        .logo {
+            margin: 25px 0;
+        }
+        .action-container {
+            margin-top: 25px;
+            width: 80%;
+            flex-wrap: wrap;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .action-container div {
+            margin: 10px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #dfdfdf;
+            padding: 10px 10px;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            border-radius: 5px;
+        }
+    </style>
+{% endblock head %}
+
+{% block content %}
+<h1 class="heading">Local <span>Drop</span></h1>
+<img class="logo" src="{% static 'icons/logo.png' %}" draggable=false>
+<div class="action-container">
+    <div class="action-video">
+        <a href="{% url 'video_list' %}"><img src="{% static 'icons/video.png' %}" width="32" height="32" draggable=false></a>
+    </div>
+    <div class="action-music">
+        <a href="{% url 'music_list' %}"><img src="{% static 'icons/music.png' %}" width="32" height="32" draggable=false></a>
+    </div>
+    <div class="action-movie">
+        <a href="{% url 'movie_list' %}"><img src="{% static 'icons/movie.png' %}" width="32" height="32" draggable=false></a>
+    </div>
+</div>
+{% endblock content %}

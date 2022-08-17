@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+  <style>
+  .custom-file__input {
+    position: absolute;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+  }
+  .custom-file__label {
+    position: relative;
+    display: block;
+    /* width: 100%; */
+    min-width: 290px;
+    min-height: 45px;
+    padding: 0;
+    background: #ffffff;
+    border: 1px solid #dfdfdf;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 5px;
+    color: #666666;
+    line-height: 45px;
+    text-align: center;
+    text-transform: none;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .custom-file__input:valid ~ .custom-file__label {
+    border-color: #39B54A;
+    background: #39B54A;
+    color: #ffffff;
+  }
+
+  .upload_bar {
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .upload_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #dfdfdf;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 5px;
+    background: none;
+    margin-left: 10px;
+    height: 45px;
+    padding: 0px 8px;
+  }
+  .data-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  .data-container > p {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  .info-refresh {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0px;
+  }
+  .info-refresh > button {
+    background: none;
+    border: none;
+  }
+
+  .card-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    padding: 8px;
+    border: 1px solid #dfdfdf;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+  }
+  .card-info {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: start;
+    margin: 0px 12px ;
+  }
+  .card-info > *{
+    font-size: 10px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 2;
+  }
+
+  .card-image {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    padding: 10px 10px;
+    border: 1px solid #dfdfdf;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 5px;
+  }
+  .card-action {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+  }
+  .card-action a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #dfdfdf;
+    padding: 8px 8px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 5px;
+  }
+
+  .card-action a:nth-child(2) {
+    margin: 0 5px;
+  }
+
+  .form-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  </style>
+
+{% endblock head %}
+
+{% block content %}
+
+    <div class="form-container">
+      <form action="{% url 'movie_list' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="upload_bar">
+          <div class="custom-file">
+            {{form}}
+            <label id="file-name" class="custom-file__label" for="field-upload">Choose movie file</label>
+          </div>
+          <button type="submit" class="upload_button"><img src="{% static 'icons/upload.png' %}" width="28" height="28" draggable="false"></button>
+        </div>
+      </form>
+    </div>
+    <div class="info-refresh">
+      <p>Total Items: <b>{{movies.count}}</b></p>
+      <button class="refresh-btn" onClick="window.location.reload();"><img src="{% static 'icons/refresh.png' %}" width="24" height="24" draggable="false"></button>
+    </div>
+
+    {% if messages %}
+      <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        {% for message in messages %}
+          <strong>{{ message }}</strong>
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endif %}
+    
+  
+  {% if movies %}
+    {% for movie in movies %}
+  
+    <div class="card-container">
+      <div class="card-image">
+          <img src="{% static 'icons/movie.png' %}" width="26" height="26" draggable=false>
+      </div>
+      <div class="card-info">
+        <p class="title">{{movie.movie_file.url|slice:"14:32"}}... </p>
+        <p class="datetime">{{movie.datetime}}</p>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'play_movie' movie.pk %}"><img src="{% static 'icons/play.png' %}" width="22" height="22" draggable=false></a>
+        <a href="{% url 'delete_movie' movie.pk %}"><img src="{% static 'icons/delete.png' %}" width="22" height="22" draggable=false></a>
+        <a href="{{movie.movie_file.url}}" download><img src="{% static 'icons/download.png' %}" width="22" height="22" draggable=false></a>
+      </div>
+    </div>
+    
+    {% endfor %}
+  {% else %}
+    <div class="data-container">
+      <img src="{%static 'icons/nodata.png'%}" width="100" height="100" draggable="false">
+      <p>Empty</p>
+    </div>
+  {% endif %}
+  
+{% endblock content %}
+
+
+{%block jsscript %} 
+  document.querySelector("#field-upload").onchange = function(){
+    document.querySelector("#file-name").innerText = this.files[0].name;
+  }
+{% endblock jsscript %}
+

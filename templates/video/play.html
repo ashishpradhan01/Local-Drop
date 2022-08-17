@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <style>
+        .video-player {
+            width: 100%;
+        }
+    </style>
+{% endblock head %}
+
+{% block content %}
+<div class="video-container">
+    <video class="video-player" src="http://192.168.29.33:3000/{{video.video_file}}" controls preload="auto" autoplay></video>
+    <p><span><b>Title: </b></span>{{video.video_file.url|slice:"14:"}}</p>
+    <p><span><b>DateTime: </b></span>{{video.datetime}}</p>
+</div>
+{% endblock content %}

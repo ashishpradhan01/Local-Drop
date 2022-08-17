@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <style>
+        .music-player {
+            width: 100%;
+            height: 50vh;
+        }
+    </style>
+{% endblock head %}
+
+{% block content %}
+<div class="music-container">
+    <audio class="music-player" src="http://192.168.29.33:3000/{{music.music_file}}" controls preload="auto" autoplay></audio>
+    <div><p><span><b>Title: </b></span>{{music.music_file.url|slice:"14:"}}</p></div>
+    <p><span><b>DateTime: </b></span>{{music.datetime}}</p>
+</div>
+{% endblock content %}
