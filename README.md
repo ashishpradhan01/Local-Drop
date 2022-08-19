@@ -1,8 +1,9 @@
 # Local Drop Web App
 
-Stream data over local network (On personal network)
+Stream Video, Audio and Movies (Large files), Share Images and documents over local network (On personal network).
 
 ##  Libraries/ Frameworks
+- Python (Required) [This project version: Python 3.10.4]
 - Django (Python Web Framework)
 - Pillow (Python Image library)
 - Etc (internal)
@@ -16,6 +17,9 @@ Stream data over local network (On personal network)
 
 #### Create local environment
     virtualenv <environment-name>
+
+#### To activate to local environment
+    from project folder > env\scripts\activate
 
 #### How to install all Libraries/Packages
     pip install -r requirements.txt
